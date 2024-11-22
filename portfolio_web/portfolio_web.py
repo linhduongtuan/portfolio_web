@@ -1,76 +1,106 @@
 import reflex as rx
-import portfolio_web.componentes.estilos as styles
-from portfolio_web.vistas.navbar import navbar
-from portfolio_web.vistas.header import header
-from portfolio_web.vistas.footer import footer
-from portfolio_web.vistas.quien_soy import who_am_i
-from portfolio_web.vistas.tecnologias import technologies
-from portfolio_web.vistas.experiencia import experience
-from portfolio_web.vistas.habilidades import skills
-from portfolio_web.vistas.proyectos import proyect
+from portfolio_web.components import styles
+from portfolio_web.components.styles import Size
+from portfolio_web.pages.navbar import navbar
+from portfolio_web.pages.footer import footer
+from portfolio_web.pages.header import header
+from portfolio_web.pages.bio import bio
+from portfolio_web.pages.technologies import technologies
+from portfolio_web.pages.experience import experience
+from portfolio_web.pages.skills import skills
+from portfolio_web.pages.projects import project
+from portfolio_web.pages.publications import publications_view
+from portfolio_web.pages.research import research_view
+from portfolio_web.pages.about_me import about_me, education
+from portfolio_web.pages.blog_page import blog_page
+from portfolio_web.pages.blog_post_page import blog_post_page
 
 
-# MAIN PAGE
 def index() -> rx.Component:
     return rx.box(
         navbar(),
+        # test_table(),
         rx.center(
-            rx.vstack(
-                header(),
-                who_am_i(),
-                technologies(),
-                experience()
-            ),
+            rx.vstack(header(), bio(), technologies(), experience()),
         ),
         rx.spacer(padding=styles.Size.VERY_BIG),
         skills(),
         rx.spacer(padding=styles.Size.VERY_BIG),
+        rx.center(project()),
+        rx.spacer(padding=styles.Size.VERY_BIG),
+        footer(),
+    )
+
+
+def research():
+    return rx.box(
+        navbar(),
         rx.center(
-            proyect()
+            research_view(),
+        ),
+        rx.spacer(padding=Size.VERY_BIG.value),
+        footer(),
+    )
+
+
+def publications():
+    return rx.box(
+        navbar(),
+        rx.center(
+            publications_view(),
+        ),
+        rx.spacer(padding=Size.VERY_BIG.value),
+        footer(),
+    )
+
+
+def about():
+    return rx.box(
+        navbar(),
+        rx.center(
+            rx.vstack(
+                about_me(),
+                education(),
+            ),
         ),
         rx.spacer(padding=styles.Size.VERY_BIG),
         footer(),
     )
 
 
-# PAGE with all proyects
-def proyects():
+@rx.page(route="/blog")
+def personal_blog():
     return rx.box(
         navbar(),
-        rx.text("Proyects Page"),
-        footer()
-    )
-
-
-# Contact's information
-def contact():
-    return rx.box(
-        navbar(),
-        rx.text("Contact me Page"),
-        footer()
-    )
-
-
-# Why change to IT at my 40's
-def about():
-    return rx.box(
-        navbar(),
-        rx.text("About Page "
-                "a Dolphin's metaphor"),
-        footer()
+        rx.center(
+            blog_page(),
+        ),
+        rx.spacer(padding=styles.Size.VERY_BIG),
+        footer(),
     )
 
 
 app = rx.App(
-    stylesheets=styles.HOJA_ESTILO,
-    style=styles.ESTILO_BASE
+    # state=BlogState,
+    stylesheets=styles.STYLE_SHEET,
+    style=styles.BASE_STYLE,
 )
 
 app.add_page(
     index,
-    title='Alejandro Garcia Salazar - PORTFOLIO',
-    description="Alejandro Garcia Salazar (Crohum)'s Portfolio website",
+    route="/",
+    title="Linh Duong - PORTFOLIO",
+    description="Linh Duong's Portfolio website",
 )
-app.add_page(proyects, route='/proyects')
-app.add_page(contact, route="/contact")
-app.add_page(about)
+
+app.add_page(
+    blog_post_page,
+    route="/blog/post/[id]",
+    title="Blog Post",
+    description="Detailed blog post",
+)
+app.add_page(personal_blog, route="/blog")
+
+app.add_page(research, route="/research")
+app.add_page(publications, route="/publications")
+app.add_page(about, route="/about")
