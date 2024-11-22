@@ -14,6 +14,7 @@ This repository was created to embrace the "learn by doing" approach, which is m
 git clone https://github.com/linhduongtuan/portfolio_web.git
 cd portfolio_web
 ```
+
 ```python 
 # It's recommended to use 'uv' for creating virtual environments and installing packages swiftly
 pip install uv
@@ -26,9 +27,11 @@ uv pip install -r requirements.txt
 # then run
 
 reflex init
-reflex run```
+reflex run
+```
 
-### TODO:
+
+### TODO
 
 - Polish both the code and the web interface.
 - Implement a backend to store data in a database.
