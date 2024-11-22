@@ -52,6 +52,7 @@ reflex run
 ### References:
 
 - [Official Reflex Documentation](https://reflex.dev/)
+- [Buridan-ui](https://github.com/LineIndent/buridan-ui)
 - [Reflex Chakra](https://github.com/reflex-dev/reflex-chakra)
 - [Inspiration Repository](https://github.com/crohum/portfolio_web/tree/main)
 - [Astral uv](https://docs.astral.sh/uv/): [An extremely fast Python package and project manager](https://github.com/astral-sh/uv), written in Rust.
