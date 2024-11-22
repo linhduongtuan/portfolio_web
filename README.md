@@ -14,7 +14,8 @@ This repository was created to embrace the "learn by doing" approach, which is m
 git clone https://github.com/linhduongtuan/portfolio_web.git
 cd portfolio_web
 ```
-```python 
+```
+python 
 # It's recommended to use 'uv' for creating virtual environments and installing packages swiftly
 pip install uv
 uv venv --python 3.13
