@@ -16,16 +16,18 @@ cd portfolio_web
 ```
 
 ```python 
-# It's recommended to use 'uv' for creating virtual environments and installing packages swiftly
+# It's recommended to use `uv` for creating virtual environments and installing packages swiftly
 pip install uv
+
+# Now create and activate a virtual environment using `uv`
 uv venv --python 3.13 # choose python version 3.13
 source .venv/bin/activate # for MacOS and Linux
 # .venv\Scripts\activate # for Windows
 
+# And install neccessary packages
 uv pip install -r requirements.txt
 
-# then run
-
+# then run reflex
 reflex init
 reflex run
 ```
