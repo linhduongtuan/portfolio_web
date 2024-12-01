@@ -8,32 +8,27 @@ from sqlmodel import Field, Relationship
 
 from . import utils
 
+
 class UserInfo(rx.Model, table=True):
     email: str
-    user_id: int = Field(foreign_key='localuser.id')
-    user: LocalUser | None = Relationship() # LocalUser instance
-    posts: List['BlogPostModel'] = Relationship(
-        back_populates='userinfo'
-    )
-    contact_entries: List['ContactEntryModel'] = Relationship(
-        back_populates='userinfo'
-    )
+    user_id: int = Field(foreign_key="localuser.id")  # type: ignore
+    user: LocalUser | None = Relationship()  # LocalUser instance
+    posts: List["BlogPostModel"] = Relationship(back_populates="userinfo")  # type: ignore
+    contact_entries: List["ContactEntryModel"] = Relationship(back_populates="userinfo")  # type: ignore
     created_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
-        sa_column_kwargs={
-            'server_default': sqlalchemy.func.now()
-        },
-        nullable=False
+        sa_type=sqlalchemy.DateTime(timezone=True),  # type: ignore
+        sa_column_kwargs={"server_default": sqlalchemy.func.now()},
+        nullable=False,
     )
     updated_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
+        sa_type=sqlalchemy.DateTime(timezone=True),  # type: ignore
         sa_column_kwargs={
-            'onupdate': sqlalchemy.func.now(),
-            'server_default': sqlalchemy.func.now()
+            "onupdate": sqlalchemy.func.now(),  # type: ignore
+            "server_default": sqlalchemy.func.now(),
         },
-        nullable=False
+        nullable=False,
     )
 
 
@@ -41,49 +36,44 @@ class BlogPostModel(rx.Model, table=True):
     # user
     # id: int -> primary key
     userinfo_id: int = Field(default=None, foreign_key="userinfo.id")
-    userinfo: Optional['UserInfo'] = Relationship(back_populates="posts")
+    userinfo: Optional["UserInfo"] = Relationship(back_populates="posts")
     title: str
     content: str
     created_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
-        sa_column_kwargs={
-            'server_default': sqlalchemy.func.now()
-        },
-        nullable=False
+        sa_type=sqlalchemy.DateTime(timezone=True),  # type: ignore
+        sa_column_kwargs={"server_default": sqlalchemy.func.now()},
+        nullable=False,
     )
     updated_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
+        sa_type=sqlalchemy.DateTime(timezone=True),  # type: ignore
         sa_column_kwargs={
-            'onupdate': sqlalchemy.func.now(),
-            'server_default': sqlalchemy.func.now()
+            "onupdate": sqlalchemy.func.now(),
+            "server_default": sqlalchemy.func.now(),
         },
-        nullable=False
+        nullable=False,
     )
     publish_active: bool = False
     publish_date: datetime = Field(
         default=None,
-        sa_type=sqlalchemy.DateTime(timezone=True),
+        sa_type=sqlalchemy.DateTime(timezone=True),  # type: ignore
         sa_column_kwargs={},
-        nullable=True
+        nullable=True,
     )
-
 
 
 class ContactEntryModel(rx.Model, table=True):
     user_id: int | None = None
     userinfo_id: int = Field(default=None, foreign_key="userinfo.id")
-    userinfo: Optional['UserInfo'] = Relationship(back_populates="contact_entries")
+    userinfo: Optional["UserInfo"] = Relationship(back_populates="contact_entries")
     first_name: str
     last_name: str | None = None
-    email: str | None = None # = Field(nullable=True)
+    email: str | None = None  # = Field(nullable=True)
     message: str
     created_at: datetime = Field(
         default_factory=utils.timing.get_utc_now,
-        sa_type=sqlalchemy.DateTime(timezone=True),
-        sa_column_kwargs={
-            'server_default': sqlalchemy.func.now()
-        },
-        nullable=False
+        sa_type=sqlalchemy.DateTime(timezone=True),  # type: ignore
+        sa_column_kwargs={"server_default": sqlalchemy.func.now()},
+        nullable=False,
     )

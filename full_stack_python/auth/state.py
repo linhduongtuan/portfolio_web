@@ -6,30 +6,28 @@ import sqlmodel
 from ..models import UserInfo
 
 
-
-
 class SessionState(reflex_local_auth.LocalAuthState):
-    @rx.cached_var
+    @rx.var
     def my_userinfo_id(self) -> str | None:
         if self.authenticated_user_info is None:
             return None
-        return self.authenticated_user_info.id
+        return self.authenticated_user_info.id  # type: ignore
 
-    @rx.cached_var
+    @rx.var
     def my_user_id(self) -> str | None:
-        if self.authenticated_user.id < 0:
+        if self.authenticated_user.id < 0:  # type: ignore
             return None
-        return self.authenticated_user.id
-    
-    @rx.cached_var
+        return self.authenticated_user.id  # type: ignore
+
+    @rx.var
     def authenticated_username(self) -> str | None:
-        if self.authenticated_user.id < 0:
+        if self.authenticated_user.id < 0:  # type: ignore
             return None
         return self.authenticated_user.username
 
-    @rx.cached_var
+    @rx.var
     def authenticated_user_info(self) -> UserInfo | None:
-        if self.authenticated_user.id < 0:
+        if self.authenticated_user.id < 0:  # type: ignore
             return None
         with rx.session() as session:
             result = session.exec(
@@ -44,7 +42,7 @@ class SessionState(reflex_local_auth.LocalAuthState):
             # user_obj = result.user
             # print(result.user)
             return result
-    
+
     def on_load(self):
         if not self.is_authenticated:
             return reflex_local_auth.LoginState.redir
@@ -56,11 +54,10 @@ class SessionState(reflex_local_auth.LocalAuthState):
         return rx.redirect("/")
 
 
-
 class MyRegisterState(reflex_local_auth.RegistrationState):
     def handle_registration(
         self, form_data
-    ) -> rx.event.EventSpec | list[rx.event.EventSpec]:
+    ) -> rx.event.EventSpec | list[rx.event.EventSpec]:  # type: ignore
         """Handle registration form on_submit.
 
         Set error_message appropriately based on validation results.
@@ -78,10 +75,10 @@ class MyRegisterState(reflex_local_auth.RegistrationState):
             return validation_errors
         self._register_user(username, password)
         return self.new_user_id
-    
+
     def handle_registration_email(self, form_data):
         new_user_id = self.handle_registration(form_data)
-        if new_user_id >= 0:
+        if new_user_id >= 0:  # type: ignore
             with rx.session() as session:
                 session.add(
                     UserInfo(

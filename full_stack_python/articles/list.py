@@ -1,9 +1,10 @@
-import reflex as rx 
+import reflex as rx
 
 from .. import navigation
 from ..ui.base import base_page
 from ..models import BlogPostModel
 from . import state
+
 
 def article_card_link(post: BlogPostModel):
     post_id = post.id
@@ -19,24 +20,28 @@ def article_card_link(post: BlogPostModel):
                 ),
                 spacing="2",
             ),
-            href=post_detail_url
+            href=post_detail_url,
         ),
         as_child=True,
     )
 
-def article_public_list_component(columns:int=3, spacing:int=5, limit:int=100) -> rx.Component:
+
+def article_public_list_component(
+    columns: int = 3, spacing: int = 5, limit: int = 100
+) -> rx.Component:
     return rx.grid(
         rx.foreach(state.ArticlePublicState.posts, article_card_link),
-        columns=f'{columns}',
-        spacing=f'{spacing}',
-        on_mount=lambda: state.ArticlePublicState.set_limit_and_reload(limit)
+        columns=f"{columns}",  # type: ignore
+        spacing=f"{spacing}",  # type: ignore
+        on_mount=lambda: state.ArticlePublicState.set_limit_and_reload(limit),  # type: ignore
     )
 
-def article_public_list_page() ->rx.Component:
+
+def article_public_list_page() -> rx.Component:
     return base_page(
         rx.box(
-            rx.heading("Published Articles",  size="5"),
+            rx.heading("Published Articles", size="5"),
             article_public_list_component(),
             min_height="85vh",
         )
-    ) 
+    )

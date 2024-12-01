@@ -1,3 +1,3 @@
-from . import  timing
+from . import timing
 
-__all__ = ['timing']
+__all__ = ["timing"]

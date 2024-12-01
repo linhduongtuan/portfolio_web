@@ -2,116 +2,213 @@ import reflex as rx
 import reflex_local_auth
 
 
-from .. import navigation
+# from .. import navigation
 
-def navbar_link(text: str, url: str) -> rx.Component:
-    return rx.link(
-        rx.text(text, size="4", weight="medium"), href=url
+
+from reflex.style import set_color_mode, color_mode
+
+# import ..components.links as Links
+from ..navigation import routes as Links
+from ..components.styles import Color, Size, TextColor
+
+
+background_base_style = dict(
+    bg=rx.color_mode_cond(light=Color.FEATURED.value, dark=Color.HOVER.value),
+)
+
+background_button_style = dict(
+    bg=rx.color_mode_cond(light=Color.FEATURED.value, dark=Color.HOVER.value),
+    color=rx.color_mode_cond(
+        light=TextColor.PRIMARY.value, dark=TextColor.PRIMARY.value
+    ),
+    box_shadow=rx.color_mode_cond(
+        light="2px 2px 4px #c5c5c5,-2px -2px 4px #ffffff",
+        dark="2px 2px 4px #000,-2px -2px 4px #222222",
+    ),
+    _hover={
+        "border_style": "solid",
+        "border_width": "1px",
+        "border_color": Color.PRIMARY.value,
+        "text_decoration": "none",
+    },
+)
+
+
+def is_current_page(page_route: str) -> rx.Var:
+    """Check if the given route is currently active."""
+    return rx.State.router.page.path == page_route  # type: ignore
+
+
+def dark_mode_toggle() -> rx.Component:
+    return rx.segmented_control.root(
+        # rx.segmented_control.item(
+        #     rx.icon(tag="monitor", size=20),
+        #     value="system",
+        # ),
+        # rx.segmented_control.item(
+        #     rx.icon(tag="sun", size=20),
+        #     value="light",
+        # ),
+        # rx.segmented_control.item(
+        #     rx.icon(tag="moon", size=20),
+        #     value="dark",
+        # ),
+        # rx.logo(),
+        rx.color_mode.button(position="bottom-left"),
+        on_change=set_color_mode,
+        variant="classic",
+        radius="large",
+        value=color_mode,
+    )
+
+
+def contact_menu_item(icon: str, text: str, href: str) -> rx.Component:
+    """Create a contact menu item with hover effects."""
+    return rx.menu.item(
+        rx.link(
+            rx.hstack(
+                rx.icon(icon),
+                rx.text(text),
+            ),
+            href=href,
+            is_external=True,
+            width="100%",
+            text_decoration="none",
+            color=TextColor.PRIMARY.value,
+            _hover={
+                "color": TextColor.FEATURED.value,
+                "background": Color.SECONDARY.value,
+            },
+        ),
+    )
+
+
+def highlighted_button_menu(
+    icon: str,
+    text: str,
+    route: str,
+    is_external: bool,
+    text_color: str = TextColor.PRIMARY.value,
+) -> rx.Component:
+    """Create a button with highlight effect for active page."""
+    button_content = rx.hstack(
+        rx.icon(icon),
+        rx.text(text, color=text_color) if text else rx.fragment(),
+    )
+
+    if is_external:
+        return rx.link(
+            button_content,
+            href=route,
+            is_external=True,
+            text_decoration="none",
+            _hover={
+                "text_decoration": "none",
+                "transform": "scale(1.05)",
+            },
+        )
+
+    return rx.cond(
+        is_current_page(route),
+        rx.button(
+            button_content,
+            variant="solid",
+            size="4",
+            bg=Color.FEATURED.value,
+            # bg='transparent',
+            color=TextColor.PRIMARY.value,
+            on_click=rx.redirect(route),
+            _hover={
+                "bg": Color.HOVER.value,
+                "transform": "scale(1.05)",
+            },
+        ),
+        rx.button(
+            button_content,
+            variant="soft",
+            size="4",
+            bg="transparent",
+            color=TextColor.FEATURED.value,
+            on_click=rx.redirect(route),
+            _hover={
+                "bg": Color.HOVER.value,
+                "transform": "scale(1.05)",
+            },
+        ),
     )
 
 
 def navbar() -> rx.Component:
     return rx.box(
-        rx.desktop_only(
-            rx.hstack(
-                rx.hstack(
-                    rx.link(
-                        rx.image(
-                            src="/logo.jpg",
-                            width="2.25em",
-                            height="auto",
-                            border_radius="25%",
-                        ),
-                        href=navigation.routes.HOME_ROUTE
-                    ),
-                    rx.link(
-                        rx.heading(
-                            "Reflex", size="7", weight="bold"
-                        ),
-                        href=navigation.routes.HOME_ROUTE
-                    ),
-                    align_items="center",
-                ),
-                rx.hstack(
-                    navbar_link("Home", navigation.routes.HOME_ROUTE),
-                    navbar_link("About", navigation.routes.ABOUT_US_ROUTE),
-                    navbar_link("Articles", navigation.routes.ARTICLE_LIST_ROUTE),
-                    navbar_link("Pricing", navigation.routes.PRICING_ROUTE),
-                    navbar_link("Contact", navigation.routes.CONTACT_US_ROUTE),
-                    spacing="5",
-                ),
-                rx.hstack(
-                    rx.link(
-                        rx.button(
-                            "Register",
-                            size="3",
-                            variant="outline",
-                        ),
-                        href=reflex_local_auth.routes.REGISTER_ROUTE
-                    ),
-                    rx.link(
-                        rx.button(
-                            "Login",
-                            size="3",
-                            variant="outline",
-                        ),
-                        href=reflex_local_auth.routes.LOGIN_ROUTE
-                    ),
-                    spacing="4",
-                    justify="end",
-                ),
-                justify="between",
-                align_items="center",
-                id='my-navbar-hstack-desktop',
+        rx.hstack(
+            rx.avatar(
+                src="/avatar.png",
+                fallback="GSA",
+                color_scheme="indigo",
+                radius="full",
+                border=f"solid, 2px, {Color.PRIMARY.value}",
+                size="3",
+                spacing="3",
+                align="justify",
             ),
-        ),
-        rx.mobile_and_tablet(
-            rx.hstack(
-                rx.hstack(
-                    rx.image(
-                        src="/logo.jpg",
-                        width="2em",
-                        height="auto",
-                        border_radius="25%",
-                    ),
-                    rx.heading(
-                        "Reflex", size="6", weight="bold"
-                    ),
-                    align_items="center",
-                ),
-                rx.menu.root(
-                    rx.menu.trigger(
-                        rx.icon("menu", size=30)
-                    ),
-                    rx.menu.content(
-                        rx.menu.item("Home", 
-                            on_click=navigation.NavState.to_home),
-                        rx.menu.item("About", 
-                            on_click=navigation.NavState.to_about_us),
-                        rx.menu.item("Articles", 
-                            on_click=navigation.NavState.to_articles),
-                        rx.menu.item("Pricing", 
-                            on_click=navigation.NavState.to_pricing),
-                        rx.menu.item("Contact", 
-                            on_click=navigation.NavState.to_contact),
-                        rx.menu.separator(),
-                        rx.menu.item("Log in", 
-                            on_click=navigation.NavState.to_login),
-                        rx.menu.item("Register", 
-                            on_click=navigation.NavState.to_register),
-                    ),
-                    justify="end",
-                ),
-                justify="between",
-                align_items="center",
+            rx.heading(
+                "Linh Duong",
+                color=TextColor.PRIMARY.value,
+                # size="3",
             ),
+            rx.spacer(),
+            highlighted_button_menu("HOME", "HOME", Links.HOME_ROUTE, False),
+            highlighted_button_menu(
+                "layout-dashboard", "RESEARCH", Links.RESEARCH_ROUTE, False
+            ),
+            highlighted_button_menu(
+                "book", "PUBLICATION", Links.PUBLICATIONS_ROUTE, False
+            ),
+            # highlighted_button_menu("pen", "ARTICLES", Links.ARTICLE_LIST_ROUTE, False),
+            highlighted_button_menu("pen", "BLOG", Links.BLOG_POSTS_ROUTE, False),
+            highlighted_button_menu("pen", "BLOG_POST", Links.BLOG_POST_ADD_ROUTE, False),
+            highlighted_button_menu("user", "ABOUT", Links.ABOUT_US_ROUTE, False),
+            highlighted_button_menu(
+                "user-plus", "REGISTER", reflex_local_auth.routes.REGISTER_ROUTE, False
+            ),
+            highlighted_button_menu(
+                "log-in", "LOGIN", reflex_local_auth.routes.LOGIN_ROUTE, False
+            ),
+            rx.menu.root(
+                rx.menu.trigger(
+                    rx.button("CONTACT ME", variant="soft", size="4"),
+                ),
+                rx.menu.content(
+                    contact_menu_item("github", "GITHUB", Links.GITHUB_URL),
+                    contact_menu_item(
+                        "graduation-cap", "GOOGLE SCHOLAR", Links.GOOGLE_SCHOLAR_URL
+                    ),
+                    contact_menu_item(
+                        "book-open", "RESEARCHGATE", Links.RESEARCHGATE_URL
+                    ),
+                    contact_menu_item("fingerprint", "ORCID", Links.ORCID_URL),
+                    contact_menu_item("linkedin", "LINKEDIN", Links.LINKEDIN_URL),
+                    contact_menu_item("twitter", "TWITTER/X", Links.TWITTER_URL),
+                    contact_menu_item("facebook", "FACEBOOK", Links.FACEBOOK_URL),
+                    contact_menu_item("mail", "EMAIL", Links.EMAIL_URL),
+                    padding="0.5em",
+                ),
+            ),
+            rx.input(
+                rx.input.slot(rx.icon("search")),
+                placeholder="Search ...",
+                type="search",
+                size="3",
+                justify="end",
+            ),
+            dark_mode_toggle(),
         ),
-        bg=rx.color("accent", 3),
-        padding="1em",
-        # position="fixed",
-        # top="0px",
-        # z_index="5",
+        bg=Color.PRIMARY.value,
+        position="sticky",
+        padding_x=Size.TINY.value,
+        padding_y=Size.DEFAULT.value,
+        z_index="999",
+        border=f"3px solid {Color.SECONDARY.value}",
+        top="0",
         width="100%",
-        id='my-main-nav',
     )
-

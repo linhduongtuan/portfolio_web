@@ -1,6 +1,6 @@
 from typing import List
 import asyncio
-import reflex as rx 
+import reflex as rx
 
 from sqlmodel import select
 
@@ -8,9 +8,10 @@ from sqlmodel import select
 from ..auth.state import SessionState
 from ..models import ContactEntryModel
 
+
 class ContactState(SessionState):
     form_data: dict = {}
-    entries: List['ContactEntryModel'] = []
+    entries: List[ContactEntryModel] = []
     did_submit: bool = False
 
     @rx.var
@@ -23,18 +24,16 @@ class ContactState(SessionState):
         # print(form_data)
         self.form_data = form_data
         data = {}
-        for k,v in form_data.items():
+        for k, v in form_data.items():
             if v == "" or v is None:
                 continue
             data[k] = v
         if self.my_user_id is not None:
-            data['user_id'] = self.my_user_id
+            data["user_id"] = self.my_user_id
         if self.my_userinfo_id is not None:
-            data['userinfo_id'] = self.my_userinfo_id
+            data["userinfo_id"] = self.my_userinfo_id  # type: ignore
         with rx.session() as session:
-            db_entry = ContactEntryModel(
-                **data
-            )
+            db_entry = ContactEntryModel(**data)
             session.add(db_entry)
             session.commit()
             self.did_submit = True
@@ -45,7 +44,5 @@ class ContactState(SessionState):
 
     def list_entries(self):
         with rx.session() as session:
-            entries = session.exec(
-                select(ContactEntryModel)
-            ).all()
-            self.entries = entries
+            entries = session.exec(select(ContactEntryModel)).all()
+            self.entries = list(entries)

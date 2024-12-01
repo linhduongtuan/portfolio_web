@@ -1,36 +1,35 @@
-import reflex as rx 
+import reflex as rx
 
 from ..ui.base import base_page
 
 from . import state
-from .notfound import blog_post_not_found
-# @rx.page(route='/about')
+# from .notfound import blog_post_not_found
+
+
+@rx.page(route="/blog")
 def blog_post_detail_page() -> rx.Component:
     can_edit = True
     edit_link = rx.link("Edit", href=f"{state.BlogPostState.blog_post_edit_url}")
-    edit_link_el = rx.cond(
-        can_edit,
-        edit_link,
-        rx.fragment("")
-    )
-    my_child = rx.cond(state.BlogPostState.post, rx.vstack(
+    # edit_link = rx.link("Edit", href=state.BlogPostState.blog_post_edit_url.eval())  # Force evaluation
+
+    edit_link_el = rx.cond(can_edit, edit_link, rx.fragment(""))
+    my_child = rx.cond(
+        state.BlogPostState.post,
+        rx.vstack(
             rx.hstack(
-                rx.heading(state.BlogPostState.post.title, size="9"),
+                rx.heading(state.BlogPostState.post.title, size="9"),  # type: ignore
                 edit_link_el,
-                align='end'
+                align="end",
             ),
-            rx.text("User info id ", state.BlogPostState.post.userinfo_id),
-            rx.text("User info: ", state.BlogPostState.post.userinfo.to_string()),
-            rx.text("User: ", state.BlogPostState.post.userinfo.user.to_string()),
-            rx.text(state.BlogPostState.post.publish_date),
-            rx.text(
-                state.BlogPostState.post.content,
-                white_space='pre-wrap'
-            ),
+            rx.text("User info id ", state.BlogPostState.post.userinfo_id),  # type: ignore
+            rx.text("User info: ", state.BlogPostState.post.userinfo.to_string()),  # type: ignore
+            rx.text("User: ", state.BlogPostState.post.userinfo.user.to_string()),  # type: ignore
+            rx.text(state.BlogPostState.post.publish_date),  # type: ignore
+            rx.text(state.BlogPostState.post.content, white_space="pre-wrap"),  # type: ignore
             spacing="5",
             align="center",
-            min_height="85vh"
-        ), 
-        blog_post_not_found()
-        )
+            min_height="85vh",
+        ),
+        # blog_post_not_found(),
+    )
     return base_page(my_child)
