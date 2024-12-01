@@ -29,6 +29,29 @@ reflex init
 reflex run
 ```
 
+#### If the web interface and backend become unresponsive, try deleting .web and all __pycache__ directories, then reinitialize and run the system again.
+
+```bash
+# Just list them first
+find . -type d -name "__pycache__"
+
+# Find and delete all __pycache__ directories
+find . -type d -name "__pycache__" -exec rm -rf {} +
+
+# Also delete .pyc files if needed
+find . -type f -name "*.pyc" -delete
+
+# Delete .web file
+rm -rf .web
+```
+
+```python
+# Then run these commands again
+reflex init
+reflex run
+```
+
+
 ### TODO:
 - [x] Make login, logout and signout functions
 
