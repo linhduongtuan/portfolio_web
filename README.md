@@ -30,25 +30,25 @@ reflex run
 ```
 
 ### TODO:
-[x] Make login, logout and signout functions
+- [x] Make login, logout and signout functions
 
-[x] Implement a backend to store data in a database
+- [x] Implement a backend to store data in a database
 
-[ ] Polish both the code and the web interface
+- [ ] Polish both the code and the web interface
 
-[ ] Create nested pages
+- [ ] Create nested pages
 
-[ ] Implement a working search function
+- [ ] Implement a working search function
 
-[ ] Add more realistic features to make the website fully functional
+- [ ] Add more realistic features to make the website fully functional
 
-[ ] And so on
+- [ ] And so on
 
 ### Random Thoughts:
 
 - I am not sure how difficult it is to develop a full-stack website based on other codebases or frameworks. Can you tell me more about your experience in web development?
 
-- Indeed, I love another library named [rio-ui](https://github.com/rio-labs/rio) because it compiles and renders web interfaces much faster. However, **rio-ui** is still not as mature as **Reflex** and lacks certain tutorials, which makes it harder for me to learn.
+- Indeed, I love another library named [rio-ui](https://github.com/rio-labs/rio) because it compiles and renders web interfaces much faster. However, **rio-ui** is still not as mature as **Reflex** and lacks certain tutorials, which makes it harder for me to learn. However, I am currently developing something similar using `rio-ui` library!
 
 - Hopefully, on another nice day, I can create my own personal blog using **rio-ui**.
 
