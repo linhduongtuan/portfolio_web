@@ -35,7 +35,7 @@ reflex run
 # Just list them first
 find . -type d -name "__pycache__"
 
-# Find and delete all __pycache__ directories
+# Find and delete all __pycache__ in directories
 find . -type d -name "__pycache__" -exec rm -rf {} +
 
 # Also delete .pyc files if needed
