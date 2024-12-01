@@ -31,11 +31,17 @@ reflex run
 
 ### TODO:
 [x] Make login, logout and signout functions
+
 [x] Implement a backend to store data in a database
+
 [ ] Polish both the code and the web interface
+
 [ ] Create nested pages
+
 [ ] Implement a working search function
+
 [ ] Add more realistic features to make the website fully functional
+
 [ ] And so on
 
 ### Random Thoughts:
