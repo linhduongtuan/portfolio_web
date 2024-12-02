@@ -22,7 +22,8 @@ source .venv/bin/activate # for MacOS and Linux
 # .venv\Scripts\activate for Windows
 
 uv pip install -r requirements.txt
-
+```
+```python 
 # then run
 
 reflex init
@@ -73,7 +74,7 @@ reflex run
 
 - Indeed, I love another library named [rio-ui](https://github.com/rio-labs/rio) because it compiles and renders web interfaces much faster. However, **rio-ui** is still not as mature as **Reflex** and lacks certain tutorials, which makes it harder for me to learn. However, I am currently developing something similar using `rio-ui` library!
 
-- Hopefully, on another nice day, I can create my own personal blog using **rio-ui**.
+- I also create my own personal blog using **rio-ui**. Please refer [https://github.com/linhduongtuan/personal_blog](https://github.com/linhduongtuan/personal_blog) and **be generous to give me a star**
 
 ### References:
 
