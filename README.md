@@ -72,7 +72,7 @@ reflex run
 
 - I am not sure how difficult it is to develop a full-stack website based on other codebases or frameworks. Can you tell me more about your experience in web development?
 
-- Indeed, I love another library named [rio-ui](https://github.com/rio-labs/rio) because it compiles and renders web interfaces much faster. However, **rio-ui** is still not as mature as **Reflex** and lacks certain tutorials, which makes it harder for me to learn. However, I am currently developing something similar using `rio-ui` library!
+- Indeed, I love another library named [rio-ui](https://github.com/rio-labs/rio) because it compiles and renders web interfaces much faster than that of `Reflex`. However, **rio-ui** is still not as mature as **Reflex** and lacks certain tutorials, which makes it harder for me to learn. However, I am currently developing something similar using `rio-ui` library!
 
 - I also create my own personal blog using **rio-ui**. Please refer [https://github.com/linhduongtuan/personal_blog](https://github.com/linhduongtuan/personal_blog) and **be generous to give me a star**
 
